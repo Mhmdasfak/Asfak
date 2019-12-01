@@ -10,12 +10,6 @@
     #chart-container { height: 600px; border: 2px solid #aaa; }
     .orgchart { background: #fff; }
   </style>
-</head>
-<body>
-  <div id="chart-container"></div>
-    <div>
-        <button onclick="hier();" id="hier">Hier</button>
-    </div>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/orgchart/2.1.6/js/jquery.orgchart.min.js"></script>
   <script type="text/javascript">
@@ -133,5 +127,12 @@ $.each(outputData,function(index,item)
 
   });
   </script>
+</head>
+<body>
+  <div id="chart-container"></div>
+    <div>
+        <button onclick="hier();" id="hier">Hier</button>
+    </div>
+ 
   </body>
 </html>
