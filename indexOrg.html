@@ -10,6 +10,12 @@
     #chart-container { height: 600px; border: 2px solid #aaa; }
     .orgchart { background: #fff; }
   </style>
+</head>
+<body>
+  <div id="chart-container"></div>
+    <div>
+        <button id="hier">Hier</button>
+    </div>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/orgchart/2.1.6/js/jquery.orgchart.min.js"></script>
   <script type="text/javascript">
@@ -59,21 +65,13 @@
 
     });
     
-    function hier() {
+    $('#hier').on('click', function() {
         var hierarchy = oc.getHierarchy();
         var daata=JSON.stringify(hierarchy, null, 2)
         console.log(hierarchy);
         var hierId=$("#"+3).find('.hierId').val();
         console.log(hierId)
     var val="";
-    $("input[value='"+hierId+"'].hier").each(function(){
-        if(val=="")
-        val=$(this).siblings(".hierIdR").val()
-        alert(val+"...."+$(this).siblings(".hierIdR").val())
-         if(val!=$(this).siblings(".hierIdR").val())
-         alert("no match"+val);
-    })
-
     var jsonData = [JSON.parse(daata)],
   outputData = [],
   parentId = 0;
@@ -105,34 +103,12 @@ $.each(outputData,function(index,item)
          status="Y";
     })
     });
-
-
     if(status=="")
     alert("Not stopped")
     else if(status=="Y")
     alert("stopped")
-
-
-
-
-
-    }
-    
- function convert(data)
- {
-     alert($("input[value='3'].hierId"))
-    
- }
-
-
+      });
   });
   </script>
-</head>
-<body>
-  <div id="chart-container"></div>
-    <div>
-        <button onclick="hier();" id="hier">Hier</button>
-    </div>
- 
   </body>
 </html>
