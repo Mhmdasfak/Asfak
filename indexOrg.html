@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Organization Chart Plugin</title>
+  <link rel="icon" href="img/logo.png">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/orgchart/2.1.6/css/jquery.orgchart.css">
+  <style type="text/css">
+    #chart-container { height: 600px; border: 2px solid #aaa; }
+    .orgchart { background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="chart-container"></div>
+    <div>
+        <button id="hier">Hier</button>
+    </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/orgchart/2.1.6/js/jquery.orgchart.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+    var status="";
+    var datascource = {
+      'id':'1',
+      'name': 'Lao Lao',
+      'title': 'general manager<input type="hidden" class="hierId" value="1"><input type="hidden" class="hierIdR" value="0">',
+      'children': [
+        { 'id':'2','name': 'Bo Miao', 'title': 'department manager<input type="hidden" class="hierId" value="2"><input type="hidden" class="hierIdR" value="1">',
+          'children': [{'id':'3','name': 'Li Xin', 'title': 'senior engineer<input type="hidden" class="hierId" value="3"><input type="hidden" class="hierIdR" value="2">' }]
+        },
+        { 'id':'3','name': 'Su Miao', 'title': 'department manager<input type="hidden" class="hierId" value="2"><input type="hidden" class="hierIdR" value="1">',
+          'children': [
+            { 'id':'4','name': 'Tie Hua', 'title': 'senior engineer<input type="hidden" class="hierId" value="3"><input type="hidden" class="hierIdR" value="2">' },
+            { 'id':'5','name': 'Hei Hei', 'title': 'senior engineer<input type="hidden" class="hierId" value="3"><input type="hidden" class="hierIdR" value="2">',
+              'children': [
+                { 'id':'6','name': 'Pang Pang', 'title': 'engineer<input type="hidden" class="hierId" value="4"><input type="hidden" class="hierIdR" value="3">' },
+                { 'id':'7','name': 'Dan Dan', 'title': 'UE engineer<input type="hidden" class="hierId" value="5"><input type="hidden" class="hierIdR" value="4">' }
+              ]
+            }
+          ]
+        },
+        { 'id':'8','name': 'Hong Miao', 'title': 'department managerF<input type="hidden" class="hierId" value="6"><input type="hidden" class="hierIdR" value="1">' }
+      ]
+    };
+    var oc = $('#chart-container').orgchart({
+      
+      'data' : datascource,
+      'id' : 'id',
+      'nodeContent': 'title',
+      'draggable': true,
+      'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
+        if($draggedNode.find('.hierId').val()== $dropZone.find('.hierId').val()) {
+          return false;
+        }
+        return true;
+      }
+    });
+    oc.$chart.on('nodedrop.orgchart', function(event, extraParams) {
+      console.log('draggedNode:' + extraParams.draggedNode.children('.title').text()
+        + ', dragZone:' + extraParams.dragZone.children('.title').text()
+        + ', dropZone:' + extraParams.dropZone.children('.title').text()
+      );
+      extraParams.draggedNode.find('.hierId').siblings(".hierIdR").val(extraParams.dropZone.find('.hierId').val())
+
+    });
+    
+    $('#hier').on('click', function() {
+        var hierarchy = oc.getHierarchy();
+        var daata=JSON.stringify(hierarchy, null, 2)
+        console.log(hierarchy);
+        var hierId=$("#"+3).find('.hierId').val();
+        console.log(hierId)
+    var val="";
+    $("input[value='"+hierId+"'].hier").each(function(){
+        if(val=="")
+        val=$(this).siblings(".hierIdR").val()
+        alert(val+"...."+$(this).siblings(".hierIdR").val())
+         if(val!=$(this).siblings(".hierIdR").val())
+         alert("no match"+val);
+    })
+
+    var jsonData = [JSON.parse(daata)],
+  outputData = [],
+  parentId = 0;
+
+function convert( data, parentId ){
+  $.each( data, function(index, item){
+    outputData.push({
+      id: item.id,
+      parent_id: parentId
+    });
+
+    if(item.hasOwnProperty('children')){
+       convert(item.children, item.id );
+    }
+  });
+}  
+
+convert( jsonData, 0 );
+      
+$.each(outputData,function(index,item)
+    {
+        var id =item.id;
+    var hierId=$("#"+id).find('.hierId').val();
+    var val="";
+    $("input[value='"+hierId+"'].hierId").each(function(){
+        if(val=="") 
+        val=$(this).siblings(".hierIdR").val()
+        alert(val+"...."+$(this).siblings(".hierIdR").val())
+         if(val!=$(this).siblings(".hierIdR").val())
+         status="Y";
+    })
+    });
+    if(status=="")
+    alert("Not stopped")
+    else if(status=="Y")
+    alert("stopped")
+      });
+    
+ function convert(data)
+ {
+     alert($("input[value='3'].hierId"))
+    
+ }
+
+
+  });
+  </script>
+  </body>
+</html>
