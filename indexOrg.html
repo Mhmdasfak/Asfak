@@ -64,7 +64,7 @@
       extraParams.draggedNode.find('.hierId').siblings(".hierIdR").val(extraParams.dropZone.find('.hierId').val())
 
     });
-    
+    var previous =null;
     $('#hier').on('click', function() {
         var hierarchy = oc.getHierarchy();
         var daata=JSON.stringify(hierarchy, null, 2)
@@ -93,22 +93,46 @@ convert( jsonData, 0 );
       
 $.each(outputData,function(index,item)
     {
+      if(status==="Y"){
+        
+        if(previous!=null)
+      
+      alert($("#"+previous.id).find('.content').text()+" Is Assigned To Multiple Position");
+       return false;
+      }
+      status="";
         var id =item.id;
     var hierId=$("#"+id).find('.hierId').val();
     var val="";
-    $("input[value='"+hierId+"'].hierId").each(function(){
+  $("input[value='"+hierId+"'].hierId").each(function(){
         if(val=="") 
-        val=$(this).siblings(".hierIdR").val()
-         if(val!=$(this).siblings(".hierIdR").val())
-         status="Y";
-    })
+        val=$(this).siblings(".hierIdR").val().trim();
+         
+        console.log(Number(val)!==Number($(this).siblings(".hierIdR").val().trim()))
+  console.log(val+"value"+$(this).siblings(".hierIdR").val().trim()+"siblings");
+         if(Number(val)!==Number($(this).siblings(".hierIdR").val().trim()))
+         {
+          status="Y";
+          return false;
+         }
+         
+         console.log(val+"value"+status+">........Siblings"+$(this).siblings(".hierIdR").val())
+   
+   })
+   previous=item;
     });
-    if(status=="")
-    alert("Not stopped")
-    else if(status=="Y")
-    alert("stopped")
-      });
+
+    if(status==="Y")
+    {
+      status="";
+      alert("Stoped")
+    }
+    else{
+    alert("status NOt Stopped"+status);
+
+    }
+  });
   });
   </script>
   </body>
-</html>
+  </html>
