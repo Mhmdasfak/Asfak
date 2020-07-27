@@ -486,6 +486,8 @@
             'exportButton': true,
       'exportFileextension': 'pdf',
       'exportFilename': 'MyOrgChart',
+      'zoom':true,
+      'pan':true,
       'draggable': true,
       'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
         if($draggedNode.find('.hierId').val()== $dropZone.find('.hierId').val()) {
