@@ -483,6 +483,9 @@
       'data' : data,
       'id' : 'Id',
       'nodeContent': 'title',
+            'exportButton': true,
+      'exportFileextension': 'pdf',
+      'exportFilename': 'MyOrgChart'
       'draggable': true,
       'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
         if($draggedNode.find('.hierId').val()== $dropZone.find('.hierId').val()) {
@@ -491,6 +494,7 @@
         return true;
       }
     });
+      
     oc.$chart.on('nodedrop.orgchart', function(event, extraParams) {
       console.log('draggedNode:' + extraParams.draggedNode.children('.title').text()
         + ', dragZone:' + extraParams.dragZone.children('.title').text()
